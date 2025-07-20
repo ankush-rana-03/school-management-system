@@ -1,40 +1,27 @@
+// App.jsx
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import ProtectedRoute from './components/ProtectedRoute';
-import Unauthorized from './pages/Unauthorized';
-import Dashboard from './pages/Dashboard';
-import AdminPage from './pages/AdminPage';
-import TeacherPage from './pages/TeacherPage';
-import ParentPage from './pages/ParentPage';
-import Login from './pages/Login';
+import MyNavbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import FeaturesSection from './components/FeaturesSection';
+import Footer from './components/Footer';
+import AboutUs from './components/AboutUs';
+import Login from "./components/Login";
 
 function App() {
       return (
             <Router>
+                  <MyNavbar />
                   <Routes>
-
+                        <Route path="/" element={
+                              <>
+                                    <HeroSection />
+                                    <FeaturesSection />
+                                    <AboutUs />
+                                    <Footer />
+                              </>
+                        } />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/unauthorized" element={<Unauthorized />} />
-
-                        {/* Common dashboard - accessible to all logged in roles */}
-                        <Route element={<ProtectedRoute allowedRoles={['admin', 'teacher', 'parent']} />}>
-                              <Route path="/dashboard" element={<Dashboard />} />
-                        </Route>
-
-                        {/* Admin-only routes */}
-                        <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-                              <Route path="/admin" element={<AdminPage />} />
-                        </Route>
-
-                        {/* Teacher-only routes */}
-                        <Route element={<ProtectedRoute allowedRoles={['teacher']} />}>
-                              <Route path="/teacher" element={<TeacherPage />} />
-                        </Route>
-
-                        {/* Parent-only routes */}
-                        <Route element={<ProtectedRoute allowedRoles={['parent']} />}>
-                              <Route path="/parent" element={<ParentPage />} />
-                        </Route>
-
                   </Routes>
             </Router>
       );

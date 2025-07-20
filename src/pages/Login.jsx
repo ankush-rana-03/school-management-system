@@ -1,46 +1,105 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+import Lottie from 'lottie-react';
+import loginAnimation from '../assets/Login.json';
+import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function Login() {
-  const [role, setRole] = useState("Principal");
+const Login = () => {
+  const [validated, setValidated] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({ email: '', password: '', role: '' });
 
-  const handleLogin = () => {
-    alert(`Logging in as ${role}`);
-    // Redirect to /home or based on role
+  const togglePassword = () => setShowPassword(!showPassword);
+
+  const handleSubmit = (event) => {
+    const form = event.currentTarget;
+    event.preventDefault();
+
+    if (form.checkValidity() === false) {
+      event.stopPropagation();
+    }
+
+    setValidated(true);
+
+    if (form.checkValidity()) {
+      alert(`Login Successful as ${formData.role}`);
+      localStorage.setItem("role", formData.role);
+      // navigation logic can go here
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-500 to-purple-600 px-4">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">School Login</h2>
-        
-        <select
-          className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          value={role}
-          onChange={(e) => setRole(e.target.value)}
-        >
-          <option value="Principal">Principal</option>
-          <option value="Teacher">Teacher</option>
-          <option value="Parent">Parent</option>
-        </select>
+    <Container
+      fluid
+      className="d-flex align-items-center justify-content-center"
+      style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', padding: '2rem' }}
+    >
+      <Row className="shadow-lg rounded-4 overflow-hidden bg-white" style={{ width: '90%', maxWidth: '1000px' }}>
+        <Col md={6} className="p-4 d-flex align-items-center justify-content-center bg-light">
+          <Lottie animationData={loginAnimation} style={{ height: '100%', width: '100%' }} />
+        </Col>
 
-        <input
-          type="text"
-          placeholder="Email"
-          className="w-full mb-4 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          className="w-full mb-6 p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-        />
+        <Col md={6} className="p-5 d-flex align-items-center justify-content-center">
+          <Form noValidate validated={validated} onSubmit={handleSubmit} style={{ width: '100%' }}>
+            <h2 className="mb-4 text-center fw-bold text-primary">Welcome Back</h2>
 
-        <button
-          onClick={handleLogin}
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition duration-300"
-        >
-          Login as {role}
-        </button>
-      </div>
-    </div>
+
+            <Form.Group controlId="formRole" className="mb-4">
+              <Form.Label>Select Role</Form.Label>
+              <Form.Select
+                required
+                value={formData.role}
+                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+              >
+                <option value="">
+                Select the Role...</option>
+                <option value="admin">Admin</option>
+                <option value="teacher">Teacher</option>
+                <option value="parent">Parent</option>
+              </Form.Select>
+              <Form.Control.Feedback type="invalid">Please select a role.</Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="formEmail" className="mb-3">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
+                required
+                type="email"
+                placeholder="Enter email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+              <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
+            </Form.Group>
+
+            <Form.Group controlId="formPassword" className="mb-3">
+              <Form.Label>Password</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  required
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter password"
+                  value={formData.password}
+                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                />
+                <Button variant="outline-secondary" onClick={togglePassword}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </Button>
+                <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
+
+            <div className="d-grid">
+              <Button variant="primary" type="submit" size="lg" className="rounded-3">
+                Login
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
+
+export default Login;
