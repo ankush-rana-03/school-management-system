@@ -1,7 +1,7 @@
 // src/components/Login.js
 import React from "react";
 import Lottie from "lottie-react";
-import animationData from "../assets/login-animation.json";
+import animationData from "../assets/login.json";
 
 const Login = () => {
   return (
