@@ -1,24 +1,34 @@
-import React from 'react';
-import MyNavbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
-import Footer from './components/Footer';
-import AboutUs from './components/AboutUs';
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import MyNavbar from "./components/Navbar";
+import HeroSection from "./components/HeroSection";
+import FeaturesSection from "./components/FeaturesSection";
+import Footer from "./components/Footer";
+import AboutUs from "./components/AboutUs";
 import Login from "./components/Login";
 
 function App() {
   return (
-    <>
+    <Router>
       <MyNavbar />
-      <Login />
-      <HeroSection />
-      <FeaturesSection /> 
-      <AboutUs />
-      <Footer />
+      <Routes>
+        {/* Home page */}
+        <Route
+          path="/"
+          element={
+            <>
+              <HeroSection />
+              <FeaturesSection />
+              <AboutUs />
+              <Footer />
+            </>
+          }
+        />
 
-       
-      {/* Baaki content */}
-    </>
+        {/* Login page */}
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
