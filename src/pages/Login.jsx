@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import MyNavbar from './components/Navbar';
-import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
-import Footer from './components/Footer';
-import AboutUs from './components/AboutUs';
-import Login from './pages/Login';
-import Dashboard from './pages/Dashboard';
-import Unauthorized from './pages/Unauthorized';
+import MyNavbar from '../components/Navbar';
+import HeroSection from '../components/HeroSection';
+import FeaturesSection from '../components/FeaturesSection';
+import Footer from '../components/Footer';
+import AboutUs from '../components/AboutUs';
+import Login from '../components/Login';
+import Dashboard from '../pages/Dashboard';
+import Unauthorized from '../pages/Unauthorized';
 
 const isLoggedIn = () => {
   const token = localStorage.getItem('token');
