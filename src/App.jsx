@@ -1,18 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import MyNavbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
 import FeaturesSection from "./components/FeaturesSection";
 import Footer from "./components/Footer";
 import AboutUs from "./components/AboutUs";
 import Login from "./components/Login";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
   return (
-    <Router>
+    <>
       <MyNavbar />
       <Routes>
-        {/* Home page */}
         <Route
           path="/"
           element={
@@ -20,15 +19,13 @@ function App() {
               <HeroSection />
               <FeaturesSection />
               <AboutUs />
-              <Footer />
             </>
           }
         />
-
-        {/* Login page */}
         <Route path="/login" element={<Login />} />
       </Routes>
-    </Router>
+      <Footer />
+    </>
   );
 }
 
