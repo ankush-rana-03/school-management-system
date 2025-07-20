@@ -1,40 +1,84 @@
-import React from "react";
-import Lottie from "lottie-react";
-import loginAnimation from "../assets/Login.json";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
-import "../styles/Login.css"; // we'll create this next
+import React, { useState } from 'react';
+import Lottie from 'lottie-react';
+import animationData from '../assets/Login.json';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/Login.css';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!email || !password) {
+      setError('Please fill in all fields');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Please enter a valid email');
+      return;
+    }
+
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+      alert('Login successful!');
+    }, 1500);
+  };
+
   return (
-    <div className="login-page">
-      <Container fluid className="login-container">
-        <Row className="align-items-center min-vh-100">
-          <Col md={6} className="d-flex justify-content-center">
-            <Lottie animationData={loginAnimation} loop={true} className="login-lottie" />
-          </Col>
+    <div className="container-fluid login-container">
+      <div className="row align-items-center justify-content-center min-vh-100">
+        <div className="col-md-6 d-none d-md-block">
+          <Lottie animationData={animationData} loop={true} />
+        </div>
 
-          <Col md={6} className="d-flex justify-content-center">
-            <Card className="login-card p-4 shadow-lg">
-              <h2 className="text-center mb-4">Welcome Back</h2>
-              <Form>
-                <Form.Group className="mb-3" controlId="formEmail">
-                  <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
-                </Form.Group>
+        <div className="col-md-5">
+          <div className="login-box p-4 shadow rounded">
+            <h2 className="mb-4 text-center">Login</h2>
 
-                <Form.Group className="mb-4" controlId="formPassword">
-                  <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3">
+                <label className="form-label">Email address</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-                <Button variant="primary" type="submit" className="login-btn w-100">
-                  Login
-                </Button>
-              </Form>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
+              <div className="mb-3">
+                <label className="form-label">Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </div>
+
+              {error && <div className="text-danger mb-3">{error}</div>}
+
+              <button type="submit" className="btn btn-primary w-100">
+                {loading ? (
+                  <span className="spinner-border spinner-border-sm"></span>
+                ) : (
+                  'Login'
+                )}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
