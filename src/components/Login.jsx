@@ -1,101 +1,86 @@
-import React, { useState } from "react";
-import Lottie from "lottie-react";
-import loginAnimation from "../assets/Login.json";
-import "bootstrap/dist/css/bootstrap.min.css";
+import React, { useState } from 'react';
+import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
+import Lottie from 'lottie-react';
+import loginAnimation from '../assets/login.json'; // apne lottie path ke hisab se set karo
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+const LoginForm = () => {
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: "" }); // remove error on change
+    setErrors({ ...errors, [e.target.name]: '' });
   };
 
   const validate = () => {
-    const errs = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!formData.email) {
-      errs.email = "Email is required";
-    } else if (!emailRegex.test(formData.email)) {
-      errs.email = "Enter a valid email";
-    }
-
-    if (!formData.password) {
-      errs.password = "Password is required";
-    } else if (formData.password.length < 6) {
-      errs.password = "Minimum 6 characters";
-    }
-
-    return errs;
+    const newErrors = {};
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.password.trim()) newErrors.password = 'Password is required';
+    return newErrors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = validate();
     if (Object.keys(validationErrors).length === 0) {
-      setSubmitted(true);
-      setTimeout(() => {
-        alert("Login successful (demo)");
-        setSubmitted(false);
-      }, 1000);
+      alert('Login successful!');
     } else {
       setErrors(validationErrors);
     }
   };
 
   return (
-    <div className="container-fluid min-vh-100 d-flex justify-content-center align-items-center bg-light">
-      <div className="row shadow-lg rounded-4 bg-white p-3" style={{ width: "90%", maxWidth: "1000px" }}>
-        <div className="col-md-6 d-flex justify-content-center align-items-center">
-          <Lottie animationData={loginAnimation} loop={true} style={{ height: "100%", maxHeight: "400px" }} />
-        </div>
-
-        <div className="col-md-6 p-4 d-flex flex-column justify-content-center">
-          <h3 className="mb-4 text-center fw-bold">Login to Your Account</h3>
-
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Email address</label>
-              <input
+    <Container fluid className="vh-100 d-flex justify-content-center align-items-center bg-light">
+      <Row className="w-100 shadow-lg bg-white rounded p-4" style={{ maxWidth: '900px' }}>
+        <Col md={6} className="d-flex align-items-center justify-content-center">
+          <Lottie animationData={loginAnimation} loop style={{ height: '100%', maxHeight: '400px' }} />
+        </Col>
+        <Col md={6}>
+          <h3 className="text-center mb-4">Login</h3>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control
                 type="email"
+                placeholder="Enter email"
                 name="email"
-                className={`form-control ${errors.email && "is-invalid"}`}
                 value={formData.email}
                 onChange={handleChange}
+                isInvalid={!!errors.email}
               />
-              {errors.email && <div className="invalid-feedback">{errors.email}</div>}
-            </div>
+              <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
+            </Form.Group>
 
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Password</label>
-              <input
-                type="password"
-                name="password"
-                className={`form-control ${errors.password && "is-invalid"}`}
-                value={formData.password}
-                onChange={handleChange}
-              />
-              {errors.password && <div className="invalid-feedback">{errors.password}</div>}
-            </div>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  isInvalid={!!errors.password}
+                />
+                <InputGroup.Text onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer' }}>
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </InputGroup.Text>
+                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
 
-            <button
-              type="submit"
-              className={`btn btn-primary w-100 fw-bold py-2 ${submitted ? "disabled" : ""}`}
-              disabled={submitted}
-            >
-              {submitted ? (
-                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
-              ) : null}
-              {submitted ? "Logging in..." : "Login"}
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
+            <div className="d-grid gap-2 mt-4">
+              <Button variant="primary" type="submit" className="rounded-pill">
+                Login
+              </Button>
+            </div>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
 
-export default Login;
+export default LoginForm;
