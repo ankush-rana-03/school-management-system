@@ -1,105 +1,70 @@
-import React, { useState } from 'react';
-import Lottie from 'lottie-react';
-import loginAnimation from '../assets/Login.json';
-import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import MyNavbar from './components/Navbar';
+import HeroSection from './components/HeroSection';
+import FeaturesSection from './components/FeaturesSection';
+import Footer from './components/Footer';
+import AboutUs from './components/AboutUs';
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
+import Unauthorised from './components/Unauthorised';
 
-const Login = () => {
-  const [validated, setValidated] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ email: '', password: '', role: '' });
-
-  const togglePassword = () => setShowPassword(!showPassword);
-
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    event.preventDefault();
-
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    }
-
-    setValidated(true);
-
-    if (form.checkValidity()) {
-      alert(`Login Successful as ${formData.role}`);
-      localStorage.setItem("role", formData.role);
-      // navigation logic can go here
-    }
-  };
-
-  return (
-    <Container
-      fluid
-      className="d-flex align-items-center justify-content-center"
-      style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', padding: '2rem' }}
-    >
-      <Row className="shadow-lg rounded-4 overflow-hidden bg-white" style={{ width: '90%', maxWidth: '1000px' }}>
-        <Col md={6} className="p-4 d-flex align-items-center justify-content-center bg-light">
-          <Lottie animationData={loginAnimation} style={{ height: '100%', width: '100%' }} />
-        </Col>
-
-        <Col md={6} className="p-5 d-flex align-items-center justify-content-center">
-          <Form noValidate validated={validated} onSubmit={handleSubmit} style={{ width: '100%' }}>
-            <h2 className="mb-4 text-center fw-bold text-primary">Welcome Back</h2>
-
-
-            <Form.Group controlId="formRole" className="mb-4">
-              <Form.Label>Select Role</Form.Label>
-              <Form.Select
-                required
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              >
-                <option value="">
-                Select the Role...</option>
-                <option value="admin">Admin</option>
-                <option value="teacher">Teacher</option>
-                <option value="parent">Parent</option>
-              </Form.Select>
-              <Form.Control.Feedback type="invalid">Please select a role.</Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group controlId="formEmail" className="mb-3">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                required
-                type="email"
-                placeholder="Enter email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-              <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
-            </Form.Group>
-
-            <Form.Group controlId="formPassword" className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  required
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Enter password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                />
-                <Button variant="outline-secondary" onClick={togglePassword}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </Button>
-                <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
-
-            <div className="d-grid">
-              <Button variant="primary" type="submit" size="lg" className="rounded-3">
-                Login
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  );
+const isLoggedIn = () => {
+  const token = localStorage.getItem('token');
+  return !!token;
 };
 
-export default Login;
+const getUserRole = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  return user?.role;
+};
+
+// Protected Route with Role Access
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  if (!isLoggedIn()) {
+    return <Navigate to="/login" />;
+  }
+
+  const role = getUserRole();
+  if (allowedRoles && !allowedRoles.includes(role)) {
+    return <Navigate to="/unauthorised" />;
+  }
+
+  return children;
+};
+
+function App() {
+  return (
+    <Router>
+      <MyNavbar />
+      <Routes>
+        {/* Public Routes */}
+        <Route
+          path="/"
+          element={
+            <>
+              <HeroSection />
+              <FeaturesSection />
+              <AboutUs />
+              <Footer />
+            </>
+          }
+        />
+        <Route path="/login" element={<Login />} />
+        <Route path="/unauthorised" element={<Unauthorised />} />
+
+        {/* Protected Route Example */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute allowedRoles={['admin', 'teacher', 'parent']}>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;

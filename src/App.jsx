@@ -1,27 +1,67 @@
-// App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import MyNavbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import FeaturesSection from './components/FeaturesSection';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
-import Login from "./components/Login";
+import Login from './components/Login';
+import Dashboard from './components/Dashboard';
+import Unauthorised from './components/Unauthorised';
+
+const isLoggedIn = () => {
+      const token = localStorage.getItem('token');
+      return !!token;
+};
+
+const getUserRole = () => {
+      const user = JSON.parse(localStorage.getItem('user'));
+      return user?.role;
+};
+
+// Protected Route with Role Access
+const ProtectedRoute = ({ children, allowedRoles }) => {
+      if (!isLoggedIn()) {
+            return <Navigate to="/login" />;
+      }
+
+      const role = getUserRole();
+      if (allowedRoles && !allowedRoles.includes(role)) {
+            return <Navigate to="/unauthorised" />;
+      }
+
+      return children;
+};
 
 function App() {
       return (
             <Router>
                   <MyNavbar />
                   <Routes>
-                        <Route path="/" element={
-                              <>
-                                    <HeroSection />
-                                    <FeaturesSection />
-                                    <AboutUs />
-                                    <Footer />
-                              </>
-                        } />
+                        {/* Public Routes */}
+                        <Route
+                              path="/"
+                              element={
+                                    <>
+                                          <HeroSection />
+                                          <FeaturesSection />
+                                          <AboutUs />
+                                          <Footer />
+                                    </>
+                              }
+                        />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/unauthorised" element={<Unauthorised />} />
+
+                        {/* Protected Route Example */}
+                        <Route
+                              path="/dashboard"
+                              element={
+                                    <ProtectedRoute allowedRoles={['admin', 'teacher', 'parent']}>
+                                          <Dashboard />
+                                    </ProtectedRoute>
+                              }
+                        />
                   </Routes>
             </Router>
       );
