@@ -6,7 +6,7 @@ import FeaturesSection from './components/FeaturesSection';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
 import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
 import Unauthorized from './components/Unauthorized';
 
 const isLoggedIn = () => {
