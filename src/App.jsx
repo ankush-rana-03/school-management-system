@@ -7,7 +7,7 @@ import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
-import Unauthorised from './components/Unauthorised';
+import Unauthorized from './components/Unauthorized';
 
 const isLoggedIn = () => {
       const token = localStorage.getItem('token');
@@ -27,7 +27,7 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
       const role = getUserRole();
       if (allowedRoles && !allowedRoles.includes(role)) {
-            return <Navigate to="/unauthorised" />;
+            return <Navigate to="/unauthorized" />;
       }
 
       return children;
@@ -51,7 +51,7 @@ function App() {
                               }
                         />
                         <Route path="/login" element={<Login />} />
-                        <Route path="/unauthorised" element={<Unauthorised />} />
+                        <Route path="/unauthorized" element={<Unauthorized />} />
 
                         {/* Protected Route Example */}
                         <Route
