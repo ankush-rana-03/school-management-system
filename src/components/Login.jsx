@@ -53,9 +53,9 @@ const Login = () => {
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
                 <option value="">Select the Role...</option>
-                <option value="admin">Admin</option>
-                <option value="teacher">Teacher</option>
-                <option value="parent">Parent</option>
+                <option value="Admind">Admin</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Parent">Parent</option>
               </Form.Select>
               <Form.Control.Feedback type="invalid">Please select a role.</Form.Control.Feedback>
             </Form.Group>

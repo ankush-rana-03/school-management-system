@@ -9,22 +9,22 @@ import AboutUs from './components/AboutUs';
 import Login from "./components/Login";
 
 function App() {
-  return (
-      <Router>
-            <MyNavbar />
+      return (
+            <Router>
+                  <MyNavbar />
                   <Routes>
-                          <Route path="/" element={
-                                    <>
-                                                <HeroSection />
-                                                            <FeaturesSection />
-                                                                        <AboutUs />
-                                                                                    <Footer />
-                                                                                              </>
-                                                                                                      } />
-                                                                                                              <Route path="/login" element={<Login />} />
-                                                                                                                    </Routes>
-                                                                                                                        </Router>
-                                                                                                                          );
-                                                                                                                          }
+                        <Route path="/" element={
+                              <>
+                                    <HeroSection />
+                                    <FeaturesSection />
+                                    <AboutUs />
+                                    <Footer />
+                              </>
+                        } />
+                        <Route path="/login" element={<Login />} />
+                  </Routes>
+            </Router>
+      );
+}
 
-                                                                                                                          export default App;
+export default App;
