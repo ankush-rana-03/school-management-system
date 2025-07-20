@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Lottie from "lottie-react";
-import loginAnimation from "../assets/login.json";
+import loginAnimation from "../assets/Login.json";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Login() {
