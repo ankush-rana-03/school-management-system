@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
 import Lottie from 'lottie-react';
-import loginAnimation from '../assets/login.json'; // apne lottie path ke hisab se set karo
+import loginAnimation from '../assets/Login.json'; // apne lottie path ke hisab se set karo
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const LoginForm = () => {
