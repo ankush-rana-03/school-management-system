@@ -1,6 +1,6 @@
 import React from "react";
 import Lottie from "lottie-react";
-import loginAnimation from "../assets/login.json";
+import loginAnimation from "../assets/Login.json";
 import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
 import "../styles/Login.css"; // we'll create this next
 
