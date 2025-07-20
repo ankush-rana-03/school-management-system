@@ -53,7 +53,7 @@ const Login = () => {
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
               >
                 <option value="">Select the Role...</option>
-                <option value="Admind">Admin</option>
+                <option value="Admin">Admin</option>
                 <option value="Teacher">Teacher</option>
                 <option value="Parent">Parent</option>
               </Form.Select>
