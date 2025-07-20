@@ -1,35 +1,40 @@
-// src/components/Login.js
 import React from "react";
 import Lottie from "lottie-react";
-import animationData from "../assets/Login.json";
+import loginAnimation from "../assets/login.json";
+import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import "../styles/Login.css"; // we'll create this next
 
 const Login = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
-      <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-md">
-        <div className="w-48 mx-auto">
-          <Lottie animationData={animationData} loop={true} />
-        </div>
-        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-        <form className="space-y-4">
-          <input
-            type="text"
-            placeholder="Username"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600"
-          >
-            Login
-          </button>
-        </form>
-      </div>
+    <div className="login-page">
+      <Container fluid className="login-container">
+        <Row className="align-items-center min-vh-100">
+          <Col md={6} className="d-flex justify-content-center">
+            <Lottie animationData={loginAnimation} loop={true} className="login-lottie" />
+          </Col>
+
+          <Col md={6} className="d-flex justify-content-center">
+            <Card className="login-card p-4 shadow-lg">
+              <h2 className="text-center mb-4">Welcome Back</h2>
+              <Form>
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <Form.Label>Email address</Form.Label>
+                  <Form.Control type="email" placeholder="Enter email" />
+                </Form.Group>
+
+                <Form.Group className="mb-4" controlId="formPassword">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" placeholder="Password" />
+                </Form.Group>
+
+                <Button variant="primary" type="submit" className="login-btn w-100">
+                  Login
+                </Button>
+              </Form>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };
