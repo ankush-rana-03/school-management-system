@@ -1,86 +1,83 @@
 import React, { useState } from 'react';
-import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
 import Lottie from 'lottie-react';
-import loginAnimation from '../assets/Login.json'; // apne lottie path ke hisab se set karo
+import loginAnimation from '../assets/Login.json';
+import { Form, Button, Container, Row, Col, InputGroup } from 'react-bootstrap';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-const LoginForm = () => {
-  const [formData, setFormData] = useState({ email: '', password: '' });
-  const [errors, setErrors] = useState({});
-  const [showPassword, setShowPassword] = useState(false);
+const Login = () => {
+  const [validated, setValidated] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+      const [formData, setFormData] = useState({ email: '', password: '' });
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-    setErrors({ ...errors, [e.target.name]: '' });
-  };
+        const togglePassword = () => setShowPassword(!showPassword);
 
-  const validate = () => {
-    const newErrors = {};
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.password.trim()) newErrors.password = 'Password is required';
-    return newErrors;
-  };
+          const handleSubmit = (event) => {
+              const form = event.currentTarget;
+                  event.preventDefault();
+                      if (form.checkValidity() === false) {
+                            event.stopPropagation();
+                                }
+                                    setValidated(true);
+                                        if (form.checkValidity()) {
+                                              alert('Login Successful!');
+                                                  }
+                                                    };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
-    if (Object.keys(validationErrors).length === 0) {
-      alert('Login successful!');
-    } else {
-      setErrors(validationErrors);
-    }
-  };
+                                                      return (
+                                                          <Container
+                                                                fluid
+                                                                      className="d-flex align-items-center justify-content-center"
+                                                                            style={{ minHeight: '100vh', backgroundColor: '#f8f9fa', padding: '2rem' }}
+                                                                                >
+                                                                                      <Row className="shadow-lg rounded-4 overflow-hidden bg-white" style={{ width: '90%', maxWidth: '1000px' }}>
+                                                                                              <Col md={6} className="p-4 d-flex align-items-center justify-content-center bg-light">
+                                                                                                        <Lottie animationData={loginAnimation} style={{ height: '100%', width: '100%' }} />
+                                                                                                                </Col>
 
-  return (
-    <Container fluid className="vh-100 d-flex justify-content-center align-items-center bg-light">
-      <Row className="w-100 shadow-lg bg-white rounded p-4" style={{ maxWidth: '900px' }}>
-        <Col md={6} className="d-flex align-items-center justify-content-center">
-          <Lottie animationData={loginAnimation} loop style={{ height: '100%', maxHeight: '400px' }} />
-        </Col>
-        <Col md={6}>
-          <h3 className="text-center mb-4">Login</h3>
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Enter email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                isInvalid={!!errors.email}
-              />
-              <Form.Control.Feedback type="invalid">{errors.email}</Form.Control.Feedback>
-            </Form.Group>
+                                                                                                                        <Col md={6} className="p-5 d-flex align-items-center justify-content-center">
+                                                                                                                                  <Form noValidate validated={validated} onSubmit={handleSubmit} style={{ width: '100%' }}>
+                                                                                                                                              <h2 className="mb-4 text-center fw-bold text-primary">Welcome Back</h2>
 
-            <Form.Group className="mb-3" controlId="password">
-              <Form.Label>Password</Form.Label>
-              <InputGroup>
-                <Form.Control
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  isInvalid={!!errors.password}
-                />
-                <InputGroup.Text onClick={() => setShowPassword(!showPassword)} style={{ cursor: 'pointer' }}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </InputGroup.Text>
-                <Form.Control.Feedback type="invalid">{errors.password}</Form.Control.Feedback>
-              </InputGroup>
-            </Form.Group>
+                                                                                                                                                          <Form.Group controlId="formEmail" className="mb-3">
+                                                                                                                                                                        <Form.Label>Email address</Form.Label>
+                                                                                                                                                                                      <Form.Control
+                                                                                                                                                                                                      required
+                                                                                                                                                                                                                      type="email"
+                                                                                                                                                                                                                                      placeholder="Enter email"
+                                                                                                                                                                                                                                                      value={formData.email}
+                                                                                                                                                                                                                                                                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                                                                                                                                                                                                                                                                    />
+                                                                                                                                                                                                                                                                                                  <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
+                                                                                                                                                                                                                                                                                                              </Form.Group>
 
-            <div className="d-grid gap-2 mt-4">
-              <Button variant="primary" type="submit" className="rounded-pill">
-                Login
-              </Button>
-            </div>
-          </Form>
-        </Col>
-      </Row>
-    </Container>
-  );
-};
+                                                                                                                                                                                                                                                                                                                          <Form.Group controlId="formPassword" className="mb-4">
+                                                                                                                                                                                                                                                                                                                                        <Form.Label>Password</Form.Label>
+                                                                                                                                                                                                                                                                                                                                                      <InputGroup>
+                                                                                                                                                                                                                                                                                                                                                                      <Form.Control
+                                                                                                                                                                                                                                                                                                                                                                                        required
+                                                                                                                                                                                                                                                                                                                                                                                                          type={showPassword ? 'text' : 'password'}
+                                                                                                                                                                                                                                                                                                                                                                                                                            placeholder="Enter password"
+                                                                                                                                                                                                                                                                                                                                                                                                                                              value={formData.password}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                />
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                <Button variant="outline-secondary" onClick={togglePassword}>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </Button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  <Form.Control.Feedback type="invalid">Please enter your password.</Form.Control.Feedback>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </InputGroup>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </Form.Group>
 
-export default LoginForm;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <div className="d-grid">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      <Button variant="primary" type="submit" size="lg" className="rounded-3">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      Login
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    </Button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          </Form>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </Col>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        </Row>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            </Container>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              );
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              };
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              export default Login;
