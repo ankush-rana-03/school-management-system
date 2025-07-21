@@ -26,6 +26,9 @@ const Login = () => {
       alert(`Login Successful as ${formData.role}`);
       localStorage.setItem("role", formData.role);
       // navigation logic can go here
+
+      // ✅ Role-based navigation       
+      switch (formData.role) { case "admin": navigate("/admin-dashboard"); break; case "teacher": navigate("/teacher-dashboard"); break; case "parent": navigate("/parent-dashboard"); break; default: navigate("/"); }
     }
   };
 

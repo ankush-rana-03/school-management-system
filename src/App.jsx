@@ -5,7 +5,7 @@ import HeroSection from './components/HeroSection';
 import FeaturesSection from './components/FeaturesSection';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
-import Login from './pages/Login';
+import Login from './components/Login';
 import Dashboard from './pages/Dashboard';
 import Unauthorized from './pages/Unauthorized';
 
