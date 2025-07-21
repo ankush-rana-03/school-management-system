@@ -100,6 +100,7 @@ const MyNavbar = () => {
                 onClick={handleLoginRedirect}
               >
                 Login
+                
               </Button>
             )}
           </Nav>
