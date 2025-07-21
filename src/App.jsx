@@ -6,8 +6,10 @@ import FeaturesSection from './components/FeaturesSection';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
 import Login from './components/Login';
-import Dashboard from './pages/Dashboard';
 import Unauthorized from './pages/Unauthorized';
+import AdminDashboard from './pages/AdminPage';
+import TeacherDashboard from './pages/TeacherPage';
+import ParentDashboard from'./pages/ParentPage';
 
 const isLoggedIn = () => {
       const token = localStorage.getItem('token');
@@ -55,13 +57,29 @@ function App() {
 
                         {/* Protected Route Example */}
                         <Route
-                              path="/dashboard"
-                              element={
-                                    <ProtectedRoute allowedRoles={['admin', 'teacher', 'parent']}>
-                                          <Dashboard />
-                                    </ProtectedRoute>
-                              }
-                        />
+                          path="/admin-dashboard"
+                            element={
+                                <ProtectedRoute allowedRoles={['admin']}>
+                                      <AdminDashboard />
+                                          </ProtectedRoute>
+                                            }
+                                            />
+                                            <Route
+                                              path="/teacher-dashboard"
+                                                element={
+                                                    <ProtectedRoute allowedRoles={['teacher']}>
+                                                          <TeacherDashboard />
+                                                              </ProtectedRoute>
+                                                                }
+                                                                />
+                                                                <Route
+                                                                  path="/parent-dashboard"
+                                                                    element={
+                                                                        <ProtectedRoute allowedRoles={['parent']}>
+                                                                              <ParentDashboard />
+                                                                                  </ProtectedRoute>
+                                                                                    }
+                                                                                    />
                   </Routes>
             </Router>
       );
