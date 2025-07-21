@@ -8,9 +8,12 @@ const MyNavbar = () => {
   const navigate = useNavigate();
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+    );
+    const [role, setRole] = useState(localStorage.getItem("role"));
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
-  const role = localStorage.getItem("role");
+  //const role = localStorage.getItem("role");
   const name = localStorage.getItem("name"); // optional, for name display
 
   const handleLogout = () => {
@@ -37,6 +40,18 @@ const MyNavbar = () => {
     setDropdownOpen(false);
   };
 
+  useEffect(() => {
+      const handleStorageChange = () => {
+          setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+              setRole(localStorage.getItem("role"));
+                };
+
+                  window.addEventListener("storage", handleStorageChange);
+                    // Also check once on mount
+                      handleStorageChange();
+
+                        return () => window.removeEventListener("storage", handleStorageChange);
+                        }, []);
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="position-relative">
       <Container>
@@ -100,7 +115,7 @@ const MyNavbar = () => {
                 onClick={handleLoginRedirect}
               >
                 Login
-                
+
               </Button>
             )}
           </Nav>
