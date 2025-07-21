@@ -1,15 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.jsx'
-import 'bootstrap/dist/css/bootstrap.min.css'
+// main.jsx or index.jsx
 
-const root = document.getElementById('root')
-if (root) {
-  createRoot(root).render(
-    <StrictMode>
-      <App />
-    </StrictMode>
-  )
-} else {
-  console.error('Root element not found')
-}
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { AuthProvider } from './auth/AuthContext';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+      <AuthProvider>
+            <App />
+                </AuthProvider>
+                  </React.StrictMode>
+                  );
