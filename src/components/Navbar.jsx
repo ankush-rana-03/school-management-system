@@ -40,7 +40,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(
     setDropdownOpen(false);
   };
 
-  useEffect(() => {
+  /*useEffect(() => {
       const handleStorageChange = () => {
           setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
               setRole(localStorage.getItem("role"));
@@ -51,7 +51,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(
                       handleStorageChange();
 
                         return () => window.removeEventListener("storage", handleStorageChange);
-                        }, []);
+                        }, []);*/
   return (
     <Navbar bg="dark" variant="dark" expand="lg" className="position-relative">
       <Container>
