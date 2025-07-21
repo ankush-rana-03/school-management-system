@@ -65,7 +65,7 @@ function App() {
                                             }
                                             />
                                             <Route
-                                              path="/teacher-dashboard"
+                                              path="/teacher"
                                                 element={
                                                     <ProtectedRoute allowedRoles={['teacher']}>
                                                           <TeacherDashboard />
@@ -73,7 +73,7 @@ function App() {
                                                                 }
                                                                 />
                                                                 <Route
-                                                                  path="/parent-dashboard"
+                                                                  path="/parent"
                                                                     element={
                                                                         <ProtectedRoute allowedRoles={['parent']}>
                                                                               <ParentDashboard />

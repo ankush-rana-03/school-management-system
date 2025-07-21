@@ -44,7 +44,7 @@ const Login = () => {
                               navigate("/parent");
                               break;
                         default:
-                              navigate("/admin");
+                              navigate("/");
                   }
             }
       };
